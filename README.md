@@ -17,8 +17,8 @@ Aplicación de cámara para Linux escrita en Python con PyQt6 y QtMultimedia.
 - Modo espejo, selector de resolución y pantalla completa.
 - Recuerda la última cámara, resolución y ajustes que usaste.
 
-Las fotos se guardan en `~/Imágenes/CamaraM` y los vídeos en `~/Vídeos/CamaraM`
-(o en las carpetas XDG equivalentes de tu idioma).
+Las fotos y los vídeos se guardan juntos en `~/Documentos/Camara`
+(o en la carpeta de documentos XDG de tu idioma, subcarpeta `Camara`).
 
 ### Atajos de teclado
 
@@ -39,8 +39,8 @@ Las fotos se guardan en `~/Imágenes/CamaraM` y los vídeos en `~/Vídeos/Camara
 Descarga `CamaraM-<versión>-installer.sh` desde [Releases](https://github.com/melvinfranco99/CamaraM/releases) y ejecútalo:
 
 ```sh
-bash CamaraM-1.1.0-installer.sh            # para tu usuario (~/.local), sin sudo
-sudo bash CamaraM-1.1.0-installer.sh --system   # para todo el sistema (/usr/local)
+bash CamaraM-1.2.0-installer.sh            # para tu usuario (~/.local), sin sudo
+sudo bash CamaraM-1.2.0-installer.sh --system   # para todo el sistema (/usr/local)
 ```
 
 ### Desde el código

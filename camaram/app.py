@@ -32,12 +32,13 @@ from PyQt6.QtWidgets import (
 from camaram.recorder import FfmpegRecorder, ffmpeg_available
 
 APP_NAME = "CamaraM"
-VERSION = "1.1.0"
+SAVE_SUBDIR = "Camara"
+VERSION = "1.2.0"
 ICON_PATH = Path(__file__).resolve().parent / "camaram.svg"
 
 
 def user_dir(kind: str, fallback: str) -> Path:
-    """Devuelve la carpeta XDG del usuario (Imágenes, Vídeos...) con subcarpeta CamaraM."""
+    """Devuelve la carpeta XDG del usuario (Documentos...) con la subcarpeta Camara."""
     try:
         out = subprocess.run(["xdg-user-dir", kind], capture_output=True, text=True, timeout=2)
         base = Path(out.stdout.strip()) if out.returncode == 0 and out.stdout.strip() else None
@@ -45,7 +46,7 @@ def user_dir(kind: str, fallback: str) -> Path:
         base = None
     if base is None or base == Path.home():
         base = Path.home() / fallback
-    path = base / APP_NAME
+    path = base / SAVE_SUBDIR
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -124,8 +125,7 @@ class CameraWindow(QMainWindow):
         self.setWindowIcon(QIcon(str(ICON_PATH)))
         self.resize(960, 680)
         self.settings = QSettings(APP_NAME, APP_NAME)
-        self.photo_dir = user_dir("PICTURES", "Imágenes")
-        self.video_dir = user_dir("VIDEOS", "Vídeos")
+        self.save_dir = user_dir("DOCUMENTS", "Documentos")  # fotos y vídeos van juntos
         self.last_file: Path | None = None
 
         self.devices = QMediaDevices(self)
@@ -191,8 +191,7 @@ class CameraWindow(QMainWindow):
         self.record_btn.setToolTip("Grabar vídeo (R)")
         self.record_btn.clicked.connect(self.toggle_recording)
 
-        folder_btn = self.tool_button("📁  Galería", "Abrir la carpeta de fotos", lambda: self.open_path(self.photo_dir))
-        video_folder_btn = self.tool_button("🎞  Vídeos", "Abrir la carpeta de vídeos", lambda: self.open_path(self.video_dir))
+        folder_btn = self.tool_button("📁  Galería", f"Abrir {self.save_dir}", lambda: self.open_path(self.save_dir))
 
         self.status = QLabel("")
         self.status.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -200,7 +199,6 @@ class CameraWindow(QMainWindow):
         bottom = QHBoxLayout()
         bottom.addWidget(self.thumb)
         bottom.addWidget(folder_btn)
-        bottom.addWidget(video_folder_btn)
         bottom.addStretch()
         bottom.addWidget(self.photo_btn)
         bottom.addSpacing(12)
@@ -420,7 +418,7 @@ class CameraWindow(QMainWindow):
         if img.isNull():
             self.show_status("Todavía no hay imagen de la cámara")
             return
-        path = self.photo_dir / f"CamaraM_{datetime.now():%Y%m%d_%H%M%S_%f}"[:-3]
+        path = self.save_dir / f"CamaraM_{datetime.now():%Y%m%d_%H%M%S_%f}"[:-3]
         path = path.with_suffix(".jpg")
         if img.save(str(path), "JPG", 95):
             self.viewfinder.do_flash()
@@ -445,7 +443,7 @@ class CameraWindow(QMainWindow):
         if frame.isNull():
             self.show_status("Todavía no hay imagen de la cámara")
             return
-        path = self.video_dir / f"CamaraM_{datetime.now():%Y%m%d_%H%M%S}.mp4"
+        path = self.save_dir / f"CamaraM_{datetime.now():%Y%m%d_%H%M%S}.mp4"
         self.recorder.start(path, frame.size(), with_audio=bool(QMediaDevices.audioInputs()))
         self.update_recording_ui(True)
         self._rec_poll.start()
@@ -487,7 +485,7 @@ class CameraWindow(QMainWindow):
         if self.last_file and self.last_file.exists():
             self.open_path(self.last_file)
         else:
-            self.open_path(self.photo_dir)
+            self.open_path(self.save_dir)
 
     @staticmethod
     def open_path(path: Path):

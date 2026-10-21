@@ -1,6 +1,6 @@
 # Maintainer: Melvin Franco <melvinfrancopedraza@gmail.com>
 pkgname=camaram
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Aplicación de cámara: fotos, vídeo y cambio entre cámara frontal y trasera"
 arch=('any')
