@@ -11,6 +11,8 @@ Aplicación de cámara para Linux escrita en Python con PyQt6 y QtMultimedia.
   Las cámaras que se conectan o desconectan aparecen y desaparecen solas.
 - **Fotos** en JPG con efecto de flash y miniatura de la última captura.
 - **Vídeo** en MP4 (H.264 + audio AAC del micrófono por defecto), con contador de tiempo.
+  Si la GPU admite VA-API (Intel: paquete `intel-media-driver`) se graba con la GPU hasta 1080p;
+  si no, por software hasta 720p.
 - Temporizador de foto de 3 o 10 segundos.
 - Modo espejo, selector de resolución y pantalla completa.
 - Recuerda la última cámara, resolución y ajustes que usaste.
@@ -37,8 +39,8 @@ Las fotos se guardan en `~/Imágenes/CamaraM` y los vídeos en `~/Vídeos/Camara
 Descarga `CamaraM-<versión>-installer.sh` desde [Releases](https://github.com/melvinfranco99/CamaraM/releases) y ejecútalo:
 
 ```sh
-bash CamaraM-1.0.0-installer.sh            # para tu usuario (~/.local), sin sudo
-sudo bash CamaraM-1.0.0-installer.sh --system   # para todo el sistema (/usr/local)
+bash CamaraM-1.1.0-installer.sh            # para tu usuario (~/.local), sin sudo
+sudo bash CamaraM-1.1.0-installer.sh --system   # para todo el sistema (/usr/local)
 ```
 
 ### Desde el código

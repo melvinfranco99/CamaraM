@@ -32,7 +32,7 @@ from PyQt6.QtWidgets import (
 from camaram.recorder import FfmpegRecorder, ffmpeg_available
 
 APP_NAME = "CamaraM"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 ICON_PATH = Path(__file__).resolve().parent / "camaram.svg"
 
 
