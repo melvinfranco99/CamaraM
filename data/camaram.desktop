@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=CamaraM
+GenericName=Cámara
+Comment=Haz fotos y graba vídeos con las cámaras del ordenador
+Exec=camaram
+Icon=camaram
+Terminal=false
+Categories=AudioVideo;Video;Recorder;
+Keywords=camera;cámara;webcam;foto;photo;video;
+StartupWMClass=CamaraM

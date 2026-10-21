@@ -1,0 +1,25 @@
+# Maintainer: Melvin Franco <melvinfrancopedraza@gmail.com>
+pkgname=camaram
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Aplicación de cámara: fotos, vídeo y cambio entre cámara frontal y trasera"
+arch=('any')
+url="https://github.com/melvinfranco99/CamaraM"
+license=('MIT')
+depends=('python' 'python-pyqt6' 'qt6-multimedia' 'qt6-multimedia-ffmpeg' 'ffmpeg' 'xdg-user-dirs' 'xdg-utils')
+source=("CamaraM-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+    cd "CamaraM-$pkgver"
+    local site="$pkgdir/usr/share/camaram"
+    install -d "$site/camaram"
+    install -m644 camaram/*.py camaram/camaram.svg "$site/camaram/"
+    install -Dm644 camaram/camaram.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/camaram.svg"
+    install -Dm644 data/camaram.desktop "$pkgdir/usr/share/applications/camaram.desktop"
+    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    install -d "$pkgdir/usr/bin"
+    printf '#!/bin/sh\nexport PYTHONPATH="/usr/share/camaram${PYTHONPATH:+:$PYTHONPATH}"\nexec python3 -m camaram "$@"\n' \
+        > "$pkgdir/usr/bin/camaram"
+    chmod 755 "$pkgdir/usr/bin/camaram"
+}
